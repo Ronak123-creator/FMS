@@ -5,6 +5,7 @@ import com.backend.foodproject.dto.foodDto.FoodResponseDto;
 import com.backend.foodproject.dto.foodDto.FoodUpdateDto;
 import com.backend.foodproject.dto.foodDto.InventoryUpdateDto;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface FoodItemService {
     void statusFoodItem(int id);
     FoodResponseDto getFoodByCategory(String category);
     FoodResponseDto updateFoodQuantity(InventoryUpdateDto dto);
+    Page<FoodResponseDto> searchFoodItem(String s, int page, int size);
+
 }

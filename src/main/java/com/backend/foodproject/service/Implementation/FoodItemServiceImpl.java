@@ -137,4 +137,15 @@ public class FoodItemServiceImpl implements FoodItemService {
         foodItemRepository.save(foodItem);
         return FoodItemMapper.toDto(foodItem);
     }
+
+   @Override
+    public Page<FoodResponseDto> searchFoodItem(String s, int page, int size){
+        String searchTerm = (s == null) ? "": s.trim();
+        if(searchTerm.isEmpty()) throw  new CustomExceptionHandling("Not Found",HttpStatus.BAD_REQUEST.value());
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
+        Page<FoodItem> result = foodItemRepository.findByNameContainingIgnoreCaseOrCategory_NameContainingIgnoreCase(searchTerm,searchTerm,pageable);
+       return result.map(FoodItemMapper::toDto);
+
+   }
 }

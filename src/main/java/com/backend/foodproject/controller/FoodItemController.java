@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/food")
 @RequiredArgsConstructor
@@ -55,6 +57,16 @@ public class FoodItemController {
         FoodResponseDto update = foodItemService.updateFoodQuantity(dto);
         return responseUtils.ok("Quantity Update Successfully", update);
 
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<Page<FoodResponseDto>>> searchFoodItem(
+            @RequestParam(required = false) String searchTerm,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ){
+        Page<FoodResponseDto> foodList = foodItemService.searchFoodItem(searchTerm,page,size);
+        return responseUtils.ok(foodList);
     }
 
 }
