@@ -10,6 +10,7 @@ import com.backend.foodproject.utils.ResponseUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ public class CategoryController {
     private final CategoryService categoryService;
     private final ResponseUtils responseUtils;
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<CategoryResponseDto>> createCategory(@RequestBody CategoryCreateDto dto){
         CategoryResponseDto category = categoryService.createCategory(dto);
@@ -41,18 +43,21 @@ public class CategoryController {
         return responseUtils.ok(responseDto);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<CategoryResponseDto>> updateCategory(@PathVariable int id, @Valid @RequestBody CategoryUpdateDto dto){
         CategoryResponseDto responseDto = categoryService.updateCategory(id,dto);
         return responseUtils.ok("Updated", responseDto);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteCategory(@PathVariable int id){
         categoryService.deleteCategory(id);
         return responseUtils.ok("Category with id "+ id +" is deleted", null);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/add/category/{categoryId}/food/{foodId}")
     public ResponseEntity<ApiResponse<Void>> addFoodItemToCategory(@PathVariable int categoryId,
                                                                    @PathVariable int foodId){
@@ -60,6 +65,7 @@ public class CategoryController {
         return responseUtils.ok("Food Item with id " + foodId + " has been added to category id " + categoryId, null);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/remove/category/{categoryId}/food/{foodId}")
     public ResponseEntity<ApiResponse<Void>> removeFoodItemFromCategory(@PathVariable int categoryId,
                                                                         @PathVariable int foodId){

@@ -8,13 +8,10 @@ import com.backend.foodproject.dto.foodDto.InventoryUpdateDto;
 import com.backend.foodproject.service.FoodItemService;
 import com.backend.foodproject.utils.ResponseUtils;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/food")
@@ -29,6 +26,7 @@ public class FoodItemController {
         return "Welcome to food project";
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<FoodResponseDto>> createFoodItem(@RequestBody FoodCreateDto dto){
         FoodResponseDto food = foodItemService.createFoodItems(dto);
@@ -45,6 +43,7 @@ public class FoodItemController {
         return responseUtils.ok(result);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<FoodResponseDto>> updateFoodItem(@PathVariable int id,
                                                                        @RequestBody FoodUpdateDto dto){
@@ -52,6 +51,7 @@ public class FoodItemController {
         return responseUtils.ok("Updated ", food);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/update/quantity")
     public ResponseEntity<ApiResponse<FoodResponseDto>> updateQuantity(@RequestBody InventoryUpdateDto dto){
         FoodResponseDto update = foodItemService.updateFoodQuantity(dto);
