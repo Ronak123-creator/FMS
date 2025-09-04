@@ -45,4 +45,7 @@ public class UserInfo {
     @Column(unique = true)
     private  String verificationToken;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Cart cart;
+
 }

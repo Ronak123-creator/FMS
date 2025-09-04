@@ -17,7 +17,7 @@ public class FoodResponseDto {
     private Integer id;
     private String name;
     private String categoryName;
-    private BigDecimal price;
+    private double price;
     private String description;
     private Integer quantity;
     private Boolean isActive;

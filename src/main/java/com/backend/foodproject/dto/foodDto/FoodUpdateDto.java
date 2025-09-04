@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,7 +15,7 @@ public class FoodUpdateDto {
 
     private Integer categoryId;
 
-    private BigDecimal price;
+    private Double price;
 
     private String description;
 

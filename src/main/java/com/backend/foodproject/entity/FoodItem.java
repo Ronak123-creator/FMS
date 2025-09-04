@@ -31,9 +31,7 @@ public class FoodItem {
     private Category category;
 
     @NotNull
-    @DecimalMin(value = "0.0")
-    @Digits(integer = 5, fraction = 2)
-    private BigDecimal price;
+    private Double price;
 
     @Column(length = 500)
     private String description;
