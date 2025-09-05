@@ -19,7 +19,7 @@ import lombok.Setter;
 public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @NotBlank(message = "Name cannot be empty")
     private String name;

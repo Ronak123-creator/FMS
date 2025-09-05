@@ -4,6 +4,9 @@ import com.backend.foodproject.entity.FoodItem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -13,5 +16,23 @@ public interface FoodItemRepository extends JpaRepository<FoodItem, Integer> {
     Page<FoodItem> findByNameContainingIgnoreCaseOrCategory_NameContainingIgnoreCase(
             String q1, String q2, Pageable pageable
     );
+
+    @Modifying(flushAutomatically = true)
+    @Query("""
+        update FoodItem f
+           set f.quantity = f.quantity - :qty
+         where f.id = :id
+           and f.isActive = true
+           and f.quantity >= :qty
+    """)
+    int tryAllocate(@Param("id") Integer id, @Param("qty") int qty);
+
+    @Modifying(flushAutomatically = true)
+    @Query("""
+        update FoodItem f
+           set f.quantity = f.quantity + :qty
+         where f.id = :id
+    """)
+    int addBack(@Param("id") Integer id, @Param("qty") int qty);
 
 }

@@ -43,6 +43,12 @@ public class FoodItemController {
         return responseUtils.ok(result);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<FoodResponseDto>> getFoodById(@PathVariable int id){
+        FoodResponseDto food = foodItemService.getFoodItemById(id);
+        return responseUtils.ok(food);
+    }
+
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<FoodResponseDto>> updateFoodItem(@PathVariable int id,
