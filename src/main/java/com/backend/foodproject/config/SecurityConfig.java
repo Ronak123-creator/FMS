@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth-> auth.requestMatchers(
                                 "/api/auth/**",   // <-- group all auth endpoints
                                 "/api/food/**",
+                                "/api/category/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",

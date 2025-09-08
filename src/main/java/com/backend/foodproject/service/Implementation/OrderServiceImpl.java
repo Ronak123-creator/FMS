@@ -11,6 +11,7 @@ import com.backend.foodproject.repository.FoodItemRepository;
 import com.backend.foodproject.repository.OrderRepository;
 import com.backend.foodproject.repository.UserInfoRepository;
 import com.backend.foodproject.service.OrderService;
+import com.backend.foodproject.service.auth.EmailService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,12 +28,43 @@ public class OrderServiceImpl implements OrderService {
     private final CartRepository cartRepository;
     private final FoodItemRepository foodItemRepository;
     private final UserInfoRepository userInfoRepository;
+    private final EmailService emailService;
 
     private UserInfo currentUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return userInfoRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomExceptionHandling("User Not Found",
                         HttpStatus.NOT_FOUND.value()));
+    }
+
+    private String buildOrderEmail(Order order){
+        StringBuilder s = new StringBuilder();
+        s.append("Hi "). append(order.getUser().getName()).append(",\n\n");
+        s.append("Your Order #").append(order.getId()).append(" has been confirmed.\n");
+        s.append("Status: ").append(order.getStatus()).append("\n");
+        if (order.getDeliveryAddress() != null) {
+            s.append("Delivery Address: ").append(order.getDeliveryAddress()).append("\n");
+        }
+        if (order.getPhoneNumber() != null) {
+            s.append("Phone: ").append(order.getPhoneNumber()).append("\n");
+        }
+        if (order.getNotes() != null) {
+            s.append("Notes: ").append(order.getNotes()).append("\n");
+        }
+        s.append("\nItems:\n");
+
+        for (OrderItem it : order.getItems()) {
+            s.append(" - ")
+                    .append(it.getFoodItem().getName())
+                    .append(" x ").append(it.getQuantity())
+                    .append(" @ ").append(it.getUnitPrice())
+                    .append(" = ").append(it.getLineTotal())
+                    .append("\n");
+        }
+
+        s.append("\nTotal: ").append(order.getTotalPrice()).append("\n");
+        s.append("\nThank you for your order!");
+        return s.toString();
     }
 
     @Override
@@ -84,18 +116,19 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setTotalPrice(total);
 
-        try {
+
             Order saved = orderRepository.save(order);
 
             cart.getItems().clear();
             cart.setTotalPrice(0.0);
+
             cartRepository.save(cart);
+
+            String subject = "Order #" +saved.getId() +" confirmed";
+            String message = buildOrderEmail(saved);
+            emailService.sendMail(user,subject,message);
             return OrderMapper.toDto(saved);
-        }catch (Exception ex){
-            Throwable root = org.springframework.core.NestedExceptionUtils.getMostSpecificCause(ex);
-            System.err.println("Order Saved failed " + root.getClass().getName()  + " - " + root.getMessage());
-            throw  ex;
-        }
+
 
     }
 
