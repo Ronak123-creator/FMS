@@ -4,6 +4,9 @@ import com.backend.foodproject.dto.foodDto.FoodCreateDto;
 import com.backend.foodproject.dto.foodDto.FoodResponseDto;
 import com.backend.foodproject.dto.foodDto.FoodUpdateDto;
 import com.backend.foodproject.dto.foodDto.InventoryUpdateDto;
+import com.backend.foodproject.dto.qr.PublicCategoryDto;
+import com.backend.foodproject.dto.qr.PublicFoodItemDto;
+import com.backend.foodproject.dto.qr.PublicMenuDto;
 import com.backend.foodproject.entity.Category;
 import com.backend.foodproject.entity.FoodItem;
 import com.backend.foodproject.exception.CustomExceptionHandling;
@@ -17,6 +20,8 @@ import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -148,4 +153,25 @@ public class FoodItemServiceImpl implements FoodItemService {
        return result.map(FoodItemMapper::toDto);
 
    }
+
+    @Override
+    public PublicMenuDto getMenu() {
+        var items = foodItemRepository.findPublicFoods();
+        var byCat = new LinkedHashMap<Integer, List<PublicFoodItemDto>>();
+        var meta = new LinkedHashMap<Integer, Category>();
+
+        for(var f: items){
+            var c = f.getCategory();
+            meta.putIfAbsent(c.getId(),c);
+            byCat.computeIfAbsent(c.getId(),k->new ArrayList<>())
+                    .add(new PublicFoodItemDto(f.getId(),f.getName(),f.getPrice(),f.getDescription()));
+        }
+
+        var cats = new ArrayList<PublicCategoryDto>();
+        for (var id : byCat.keySet()){
+            var c = meta.get(id);
+            cats.add(new PublicCategoryDto(c.getId(), c.getName(), c.getDescription(), byCat.get(id)));
+        }
+        return new PublicMenuDto(cats);
+    }
 }

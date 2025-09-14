@@ -2,7 +2,6 @@ package com.backend.foodproject.mapper;
 
 import com.backend.foodproject.dto.foodDto.FoodCreateDto;
 import com.backend.foodproject.dto.foodDto.FoodResponseDto;
-import com.backend.foodproject.dto.foodDto.FoodUpdateDto;
 import com.backend.foodproject.entity.Category;
 import com.backend.foodproject.entity.FoodItem;
 

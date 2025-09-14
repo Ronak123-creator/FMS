@@ -35,4 +35,12 @@ public interface FoodItemRepository extends JpaRepository<FoodItem, Integer> {
     """)
     int addBack(@Param("id") Integer id, @Param("qty") int qty);
 
+    @Query("""
+           select f from FoodItem f
+           join fetch f.category c
+           where f.isActive = true and f.quantity > 0
+           order by c.name asc, f.name asc
+           """)
+    List<FoodItem> findPublicFoods();
+
 }

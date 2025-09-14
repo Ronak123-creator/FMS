@@ -1,7 +1,6 @@
 package com.backend.foodproject.repository;
 
 import com.backend.foodproject.entity.Cart;
-import com.backend.foodproject.entity.CartItem;
 import com.backend.foodproject.entity.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 

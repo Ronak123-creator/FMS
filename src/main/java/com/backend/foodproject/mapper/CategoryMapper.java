@@ -3,7 +3,6 @@ package com.backend.foodproject.mapper;
 import com.backend.foodproject.dto.categoryDto.CategoryCreateDto;
 import com.backend.foodproject.dto.categoryDto.CategoryDetailResponseDto;
 import com.backend.foodproject.dto.categoryDto.CategoryResponseDto;
-import com.backend.foodproject.dto.categoryDto.CategoryUpdateDto;
 import com.backend.foodproject.entity.Category;
 
 import java.util.List;

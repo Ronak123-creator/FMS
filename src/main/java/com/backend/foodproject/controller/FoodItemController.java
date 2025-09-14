@@ -5,6 +5,7 @@ import com.backend.foodproject.dto.foodDto.FoodCreateDto;
 import com.backend.foodproject.dto.foodDto.FoodResponseDto;
 import com.backend.foodproject.dto.foodDto.FoodUpdateDto;
 import com.backend.foodproject.dto.foodDto.InventoryUpdateDto;
+import com.backend.foodproject.dto.qr.PublicMenuDto;
 import com.backend.foodproject.service.FoodItemService;
 import com.backend.foodproject.utils.ResponseUtils;
 import lombok.RequiredArgsConstructor;
@@ -73,6 +74,12 @@ public class FoodItemController {
     ){
         Page<FoodResponseDto> foodList = foodItemService.searchFoodItem(searchTerm,page,size);
         return responseUtils.ok(foodList);
+    }
+
+    @GetMapping("/qrmenu")
+    public ResponseEntity<ApiResponse<PublicMenuDto>> qrMenu(){
+        PublicMenuDto dto = foodItemService.getMenu();
+        return responseUtils.ok("Menu",dto);
     }
 
 }

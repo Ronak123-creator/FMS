@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 @RequestMapping("/api/admin/order")
@@ -70,5 +69,6 @@ public class AdminOrderController {
         OrderResponseDto cancelOrder = adminOrderService.cancel(id, reason, restock);
         return responseUtils.ok("Cancelled",cancelOrder);
     }
+
 
 }
