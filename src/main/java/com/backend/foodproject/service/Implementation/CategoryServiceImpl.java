@@ -34,7 +34,6 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = CategoryMapper.toEntity(dto);
         categoryRepository.save(category);
         return CategoryMapper.toDto(category);
-
     }
 
     @Override
@@ -70,11 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(()-> new CustomExceptionHandling("Category Not Found with id: "+id,
                         HttpStatus.BAD_REQUEST.value()));
-//        int count = category.getFoodItems().size();
-//        if(count>0){
-//            throw new CustomExceptionHandling("Category has " + count + " items so cannot be deleted",
-//                    HttpStatus.FORBIDDEN.value());
-//        }
+
         categoryRepository.delete(category);
     }
 

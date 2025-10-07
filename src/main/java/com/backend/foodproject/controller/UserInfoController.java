@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
+
 public class UserInfoController {
     private final UserInfoService userInfoService;
     private final AuthenticationManager authenticationManager;

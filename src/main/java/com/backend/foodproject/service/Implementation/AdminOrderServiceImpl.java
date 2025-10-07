@@ -56,7 +56,6 @@ public class AdminOrderServiceImpl implements AdminOrderService {
                 .toList();
     }
 
-
     @Override
     @Transactional
     public Page<OrderResponseDto> search(OrderStatus status, Instant from, Instant to, String q,int page, int size) {

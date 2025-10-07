@@ -24,7 +24,7 @@ public class FoodprojectApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
 						.allowedOrigins("http://localhost:3000",
-								"http://172.17.17.25:3000",
+								"http://172.17.17.98:3000",
 								"http://localhost:5173")
 						.allowedMethods("GET","POST","PUT","DELETE","OPTIONS")
 						.allowedHeaders("*")

@@ -7,6 +7,7 @@ import com.backend.foodproject.dto.foodDto.InventoryUpdateDto;
 import com.backend.foodproject.dto.qr.PublicCategoryDto;
 import com.backend.foodproject.dto.qr.PublicFoodItemDto;
 import com.backend.foodproject.dto.qr.PublicMenuDto;
+import com.backend.foodproject.dto.stock.LowStockItemDto;
 import com.backend.foodproject.entity.Category;
 import com.backend.foodproject.entity.FoodItem;
 import com.backend.foodproject.exception.CustomExceptionHandling;

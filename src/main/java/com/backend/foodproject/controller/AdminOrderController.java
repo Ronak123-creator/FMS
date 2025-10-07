@@ -17,6 +17,7 @@ import java.time.Instant;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 @RequestMapping("/api/admin/order")
 @RequiredArgsConstructor
@@ -69,6 +70,5 @@ public class AdminOrderController {
         OrderResponseDto cancelOrder = adminOrderService.cancel(id, reason, restock);
         return responseUtils.ok("Cancelled",cancelOrder);
     }
-
 
 }
